@@ -6,7 +6,6 @@
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +28,7 @@ import com.example.android.marsrealestate.overview.MarsApiStatus
 import com.example.android.marsrealestate.overview.PhotoGridAdapter
 
 @BindingAdapter("listData")
-fun bindREcyclerView(recyclerView: RecyclerView, data: List<MarsProperty>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<MarsProperty>?) {
     val adapter = recyclerView.adapter as PhotoGridAdapter
     adapter.submitList(data)
 }
@@ -44,11 +43,10 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
                         .error(R.drawable.ic_broken_image))
                 .into(imgView)
     }
-
 }
 
 @BindingAdapter("marsApiStatus")
-fun bindStatus(statusImageView: ImageView, status: MarsApiStatus){
+fun bindStatus(statusImageView: ImageView, status: MarsApiStatus?) {
     when (status) {
         MarsApiStatus.LOAD -> {
             statusImageView.visibility = View.VISIBLE

@@ -50,6 +50,11 @@ class OverviewViewModel : ViewModel() {
     val properties: LiveData<List<MarsProperty>>
         get() = _properties
 
+    private val _navigateToSelectedProperty = MutableLiveData<MarsProperty>()
+
+    val navigateToSelectedProperty: LiveData<MarsProperty>
+        get() = _navigateToSelectedProperty
+
     private var coroutinesJob = Job()
 
     private val coroutinesScope = CoroutineScope(Dispatchers.Main + coroutinesJob)
@@ -72,11 +77,11 @@ class OverviewViewModel : ViewModel() {
                 _status.value = MarsApiStatus.LOAD
                 var listResult = getPropertiesDeferred.await()
                 _status.value = MarsApiStatus.DONE
-                if (listResult.isNotEmpty()) {
-                    _properties.value = listResult
-                }
+                _properties.value = listResult
+
             } catch (t: Throwable) {
                 _status.value = MarsApiStatus.ERROR
+                _properties.value = ArrayList()
             }
         }
     }
@@ -84,5 +89,13 @@ class OverviewViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         coroutinesJob.cancel()
+    }
+
+    fun displayPropertyDetails(marsProperty: MarsProperty){
+        _navigateToSelectedProperty.value = marsProperty
+    }
+
+    fun displayPropertyDetailsComplete() {
+        _navigateToSelectedProperty.value = null
     }
 }
